@@ -5,6 +5,8 @@ import { MapViewComponent } from './components/map-view/map-view.component';
 import { LoadingMapComponent } from './components/loading-map/loading-map.component';
 import { BtnMyLocationComponent } from './components/btn-my-location/btn-my-location.component';
 import { AngularLogoComponent } from './components/angular-logo/angular-logo.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { SearchResultsComponent } from './components/search-results/search-results.component';
 
 @NgModule({
   declarations: [
@@ -12,7 +14,9 @@ import { AngularLogoComponent } from './components/angular-logo/angular-logo.com
     MapViewComponent,
     LoadingMapComponent,
     BtnMyLocationComponent,
-    AngularLogoComponent
+    AngularLogoComponent,
+    SearchBarComponent,
+    SearchResultsComponent
   ],
   imports: [CommonModule],
 })
