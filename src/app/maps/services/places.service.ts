@@ -35,9 +35,13 @@ export class PlacesService {
   }
 
   getPlacesByQuery(query: string = '') {
+    if (query.length === 0) {
+      this.isLoadingPlaces = false;
+      this.places = [];
+      return;
+    }
     if (!this.userLocation) throw new Error('No user location');
     this.isLoadingPlaces = true;
-    // TODO: when query is empty
     this.placesApi
       .get<PlacesResponse>(`/${query}.json`, {
         params: {
