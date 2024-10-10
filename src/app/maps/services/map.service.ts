@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LngLatBounds, LngLatLike, Map, Marker, Popup } from 'mapbox-gl';
 import { Feature } from '../interfaces/places.interface';
+import { DirectionsApiClient } from '../api';
+import { DirectionsResponse, Route } from '../interfaces/directions.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +18,8 @@ export class MapService {
   setMap(map: Map) {
     this.map = map;
   }
+
+  constructor(private directionsApi: DirectionsApiClient) {}
 
   flyTo(coords: LngLatLike) {
     if (!this.isMapReady) throw new Error('The map is not intialized');
@@ -58,5 +62,26 @@ export class MapService {
     this.map.fitBounds(bounds, {
       padding: 200,
     });
+  }
+
+  getRouteBetweenPoints(start: [number, number], end: [number, number]) {
+    this.directionsApi
+      .get<DirectionsResponse>(`/${start.join(',')};${end.join(',')}`)
+      .subscribe((resp) => this.drawPolyline(resp.routes[0]));
+  }
+
+  private drawPolyline(route: Route) {
+    console.log({ kms: route.distance / 1000, duration: route.duration / 60 });
+
+    if (!this.map) throw Error('Map not initialized');
+
+    const coords = route.geometry.coordinates;
+
+    const bounds = new LngLatBounds();
+    coords.forEach(([lng, lat]) => {
+      bounds.extend([lng, lat]);
+    });
+
+    this.map.fitBounds(bounds, { padding: 200 });
   }
 }

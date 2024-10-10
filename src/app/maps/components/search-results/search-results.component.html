@@ -12,6 +12,10 @@
   >
     <h6>{{place.text_es}}</h6>
     <p>{{place.place_name}}</p>
-    <button class="btn btn-sm" [ngClass]="(place.id === selectedId) ? 'btn-outline-light':'btn-outline-primary'">Locations</button>
+    <button
+      class="btn btn-sm"
+      [ngClass]="(place.id === selectedId) ? 'btn-outline-light':'btn-outline-primary'"
+      (click)="getDirections(place)"
+    >Locations</button>
   </li>
 </ul>
